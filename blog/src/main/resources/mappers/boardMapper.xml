@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="boardMapper">
+   <!-- 게시판 작성 -->
+   <insert id="insert">
+   		INSERT INTO DEV_BOARD(		BOARD_NUM
+   								,	BOARD_TITLE
+   								,	BOARD_CONTENT)
+  					VALUES(			DEV_BOARD_SEQ.NEXTVAL
+  								,	#{board_title}
+  								,	#{board_content}	)
+   </insert>
+   
+   <!-- 게시판 목록 -->
+   <select id="list" resultType="com.snooy.vo.BoardVO">
+		SELECT   BOARD_NUM
+			   , BOARD_TITLE
+			   , BOARD_CONTENT
+			   , BOARD_DATE
+		  FROM DEV_BOARD
+		  ORDER BY BOARD_NUM DESC
+	</select>
+	
+	<!-- 게시물 조회 -->
+	<select id="read" parameterType="int" resultType="com.snooy.vo.BoardVO">
+		SELECT	BOARD_NUM
+			  , BOARD_TITLE
+			  , BOARD_CONTENT
+			  , BOARD_DATE
+		 FROM DEV_BOARD
+		 WHERE BOARD_NUM = #{board_num}
+	</select>
+	
+	<!-- 게시물 수정 -->
+	<select id="update" parameterType="com.snooy.vo.BoardVO">
+		UPDATE	DEV_BOARD
+			SET BOARD_TITLE = #{board_title}
+			  , BOARD_CONTENT = #{board_content}
+		 WHERE BOARD_NUM = #{board_num}
+	</select>
+	
+	<select id="delete" parameterType="int">
+		DELETE
+			FROM DEV_BOARD
+		 	WHERE BOARD_NUM = #{board_num}
+	</select>
+</mapper>
