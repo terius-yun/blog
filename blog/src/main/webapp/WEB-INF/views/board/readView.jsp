@@ -27,10 +27,13 @@
 					}
 				})
 				
-				// 취소
+				// 취소(게시글 목록으로 이동)
 				$(".list_btn").on("click", function(){
 					
-					location.href = "/board/list";
+					location.href = "/board/list?page=${scri.page}"
+							+"&perPageNum=${scri.perPageNum}"
+							+"&searchType=${scri.searchType}"
+							+"&keyword=${scri.keyword}";
 				})
 			})
 		</script>
@@ -49,7 +52,11 @@
 			
 			<section id="container">
 				<form name="readForm" role="form" method="post">
-					<input type="hidden" id="board_num" name="board_num" value="${read.board_num}" />
+					<input type="hidden" id="board_num" name="board_num" value="${read.board_num}"/>
+					<input type="hidden" id="page" name="page" value="${scri.page}"/>
+					<input type="hidden" id="perPageNum" name="perPageNum" value="${scri.perPageNum}"/>
+					<input type="hidden" id="searchType" name="searchType" value="${scri.searchType}"/>
+					<input type="hidden" id="keyword" name="keyword" value="${scri.keyword}"/>
 				</form>
 				<table>
 					<tbody>

@@ -10,11 +10,17 @@
 		$(document).ready(function(){
 			var formObj = $("form[name='updateForm']");
 			
+			//취소버튼
 			$(".cancel_btn").on("click", function(){
 				event.preventDefault();
-				location.href = "/board/list";
+				location.href = "/board/readView?board_num=${update.board_num}"
+					+"&page=${scri.page}"
+					+"&perPageNum=${scri.perPageNum}"
+					+"&searchType=${scri.searchType}"
+					+"&keyword=${scri.keyword}";
 			})
 			
+			//수정버튼
 			$(".update_btn").on("click", function(){
 				if(fn_valiChk()){
 					return false;

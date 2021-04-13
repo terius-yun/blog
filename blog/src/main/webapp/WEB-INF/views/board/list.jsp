@@ -41,7 +41,11 @@
 							<tr>
 								<td><c:out value="${list.board_num}" /></td>
 								<td>
-									<a href="/board/readView?board_num=${list.board_num}"><c:out value="${list.board_title}" /></a>
+									<a href="/board/readView?board_num=${list.board_num}&
+															page=${scri.page}&
+															perPageNum=${scri.perPageNum}&
+															searchType=${scri.searchType}&
+															keyword=${scri.keyword}&"><c:out value="${list.board_title}" /></a>
 								</td>
 								<td><fmt:formatDate value="${list.board_date}" pattern="yyyy-MM-dd"/></td>
 							</tr>
