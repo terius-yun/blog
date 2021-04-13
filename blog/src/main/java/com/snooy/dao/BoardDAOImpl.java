@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.snooy.vo.BoardVO;
 import com.snooy.vo.Criteria;
+import com.snooy.vo.SearchCriteria;
 
 @Repository
 public class BoardDAOImpl implements BoardDAO{
@@ -23,14 +24,14 @@ public class BoardDAOImpl implements BoardDAO{
 
 	//게시글 목록 조회
 	@Override
-	public List<BoardVO> list(Criteria cri) throws Exception {
-		return sqlSession.selectList("boardMapper.listPage", cri);
+	public List<BoardVO> list(SearchCriteria scri) throws Exception {
+		return sqlSession.selectList("boardMapper.listPage", scri);
 	}
 
 	//게시물 총 갯수
 	@Override
-	public int listCount() throws Exception {
-		return sqlSession.selectOne("boardMapper.listCount");
+	public int listCount(SearchCriteria scri) throws Exception {
+		return sqlSession.selectOne("boardMapper.listCount", scri);
 	}
 
 	//게시물 보기

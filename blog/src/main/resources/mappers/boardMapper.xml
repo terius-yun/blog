@@ -26,18 +26,30 @@
 		  				BOARD_DATE,
 		  				ROW_NUMBER() OVER(ORDER BY BOARD_NUM DESC) AS RNUM
 		  		FROM DEV_BOARD
-		  )MP
+		  		WHERE 1 = 1
+		  			<include refid="search"></include>
+		  		)MP
 		  WHERE RNUM BETWEEN #{rowStart} AND #{rowEnd}
 		  ORDER BY BOARD_NUM DESC
 	</select>
 	
+	<!-- 리스트 카운터 -->
 	<select id="listCount" resultType="int">
-		<![CDATA[
 			SELECT COUNT(BOARD_NUM)
 				FROM DEV_BOARD
-				WHERE BOARD_NUM > 0
-		]]>
+				WHERE 1 = 1
+				<include refid="search"></include>
+				AND BOARD_NUM > 0
 	</select>
+	
+	<!-- search에 대한 공통된 sql -->
+	<sql id="search">
+		<if test="searchType != null">
+			<if test="searchType == 't'.toString()">AND BOARD_TITLE LIKE '%' || #{keyword} || '%'</if>
+			<if test="searchType == 'c'.toString()">AND BOARD_CONTENT LIKE '%' || #{keyword} || '%'</if>
+			<if test="searchType == 'tc'.toString()">AND (BOARD_TITLE LIKE '%' || #{keyword} || '%') or (BOARD_CONTENT LIKE '%' || #{keyword} || '%')</if>
+		</if>
+	</sql>
 	
 	<!-- 게시물 조회 -->
 	<select id="read" parameterType="int" resultType="com.snooy.vo.BoardVO">

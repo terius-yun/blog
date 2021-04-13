@@ -1,5 +1,7 @@
 package com.snooy.vo;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -60,7 +62,7 @@ public class PageMaker {
 		prev = startPage == 1 ? false : true;
 		next = endPage * cri.getPerPageNum() >= totalCount ? false : true;
 	}
-	
+	//쿼리 생성
 	public String makeQuery(int page) {
 		UriComponents uriComponents =
 		UriComponentsBuilder.newInstance()
@@ -69,5 +71,29 @@ public class PageMaker {
 							.build();
 		   
 		return uriComponents.toUriString();
+	}
+	
+	//검색시 uri 동적생성
+	public String makeSearch(int page) {
+		UriComponents uriComponents =
+				UriComponentsBuilder.newInstance()
+				.queryParam("page", page)
+				.queryParam("perPageNum", cri.getPerPageNum())
+				.queryParam("searchType", ((SearchCriteria)cri).getSearchType())
+				.queryParam("keyword", encoding(((SearchCriteria)cri).getKeyword()))
+				.build();
+		return uriComponents.toUriString();
+	}
+	
+	private String encoding(String keyword) {
+		if(keyword == null || keyword.trim().length() == 0) {
+			return "";
+		}
+		
+		try {
+			return URLEncoder.encode(keyword, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			return "";
+		}
 	}
 }

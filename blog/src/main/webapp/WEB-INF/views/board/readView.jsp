@@ -36,7 +36,6 @@
 		</script>
 	</head>
 	<body>
-	
 		<div id="root">
 			<header>
 				<h1> 게시판</h1>
