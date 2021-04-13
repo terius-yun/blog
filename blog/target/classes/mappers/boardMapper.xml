@@ -14,13 +14,29 @@
    </insert>
    
    <!-- 게시판 목록 -->
-   <select id="list" resultType="com.snooy.vo.BoardVO">
+   <select id="listPage" resultType="com.snooy.vo.BoardVO" parameterType="com.snooy.vo.Criteria">
 		SELECT   BOARD_NUM
 			   , BOARD_TITLE
 			   , BOARD_CONTENT
 			   , BOARD_DATE
-		  FROM DEV_BOARD
+		  FROM (
+		  		SELECT  BOARD_NUM,
+		  				BOARD_TITLE,
+		  				BOARD_CONTENT,
+		  				BOARD_DATE,
+		  				ROW_NUMBER() OVER(ORDER BY BOARD_NUM DESC) AS RNUM
+		  		FROM DEV_BOARD
+		  )MP
+		  WHERE RNUM BETWEEN #{rowStart} AND #{rowEnd}
 		  ORDER BY BOARD_NUM DESC
+	</select>
+	
+	<select id="listCount" resultType="int">
+		<![CDATA[
+			SELECT COUNT(BOARD_NUM)
+				FROM DEV_BOARD
+				WHERE BOARD_NUM > 0
+		]]>
 	</select>
 	
 	<!-- 게시물 조회 -->

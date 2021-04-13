@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.snooy.service.BoardService;
 import com.snooy.vo.BoardVO;
+import com.snooy.vo.Criteria;
+import com.snooy.vo.PageMaker;
 
 @Controller
 public class BoardContoller {
@@ -37,10 +39,15 @@ public class BoardContoller {
 	
 	//게시글 목록
 	@RequestMapping(value = "board/list", method = RequestMethod.GET)
-	public String list(Model model) throws Exception{
+	public String list(Model model, Criteria cri) throws Exception{
 		logger.info("list");
 		
-		model.addAttribute("list",service.list());
+		model.addAttribute("list",service.list(cri));
+		
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(service.listCount());
+		model.addAttribute("pageMaker", pageMaker);
 		return "board/list";
 	}
 	
